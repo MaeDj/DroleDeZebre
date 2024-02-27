@@ -11,4 +11,11 @@ package droledezebre;
 public class Case {
    private Pion pion;
    private char terrain;
+   
+   public Pion getPion(){
+       return(this.pion);
+   }
+   public void setPion(Pion newPion){
+       this.pion=newPion;
+   }
 }

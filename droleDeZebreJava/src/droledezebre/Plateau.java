@@ -10,6 +10,12 @@ package droledezebre;
  */
 public class Plateau implements EntiteJeu{
     private Case[][] plateau=new Case[7][6];
+    
+    public Case[][] getPlateau(){
+        return(this.plateau);
+    }
+    
+    
     public void init(){
         
     }

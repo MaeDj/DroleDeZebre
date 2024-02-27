@@ -18,33 +18,45 @@ public class Jeu implements EntiteJeu {
 
     public void init() {
         listJoueur.clear(); // dans le cas ou on fiat plusieurs parties d'affilé 
-        Plateau plateau = new Plateau();
-        plateau.init();
+        Plateau plateau1 = new Plateau();
+        plateau1.init();
         for (int i = 0; i < 2; i++) { // initialisation des deux joueurs 
             Joueur j = new Joueur();
             j.init();
             listJoueur.add(j);
         }
-        Random ra=new Random();
-        int place =ra.nextInt(1)+1;
-        if (place==2){
-            Joueur temp=listJoueur.get(2);
-            listJoueur.add(1,listJoueur.get(1));
-            listJoueur.add(0,temp);
+        Random ra = new Random();
+        int place = ra.nextInt(1) + 1;
+        if (place == 2) {
+            Joueur temp = listJoueur.get(2);
+            listJoueur.add(1, listJoueur.get(1));
+            listJoueur.add(0, temp);
         }
-        boolean repCorrect =false;
-        while(repCorrect=false){
-        System.out.println(listJoueur.get(1).getPseudo()+" Où voulez vous placer Impala Jones pour ce premier tour? n'oubliez pas que ça doit être une case au bord du plateau! ");
-                System.out.println("Donnez les coordonnées x de votre ImpalaJones, ");
-        try{
-            Scanner na=new Scanner(System.in);
-            int rep1=na.nextInt();
-            
-            if(rep1==0){
-                repCorrect=true;
-            }  
-        }
-        
+        boolean repCorrect = false;
+        while (repCorrect = false) {
+            System.out.println(listJoueur.get(1).getPseudo() + " Où voulez vous placer Impala Jones pour ce premier tour? n'oubliez pas que ça doit être une case au bord du plateau! ");
+
+            try {
+                System.out.println("Donnez les coordonnées x (colonnes)de votre ImpalaJones, ");
+                Scanner na = new Scanner(System.in);
+                int x = na.nextInt();
+                System.out.println("Donnez les coordonnées y(lignes) de votre ImplaJones ");
+                Scanner va=new Scanner(System.in);
+                int y=va.nextInt();
+                if ((x == 0||y==0)&&(x<=6&&y<=7)&&(x>=0&&y>=0)) {
+                    repCorrect = true;
+                    ImpalaJones impala=new ImpalaJones();
+                    
+                    plateau1.getPlateau()[y][x].setPion(impala);
+                }
+                else{
+                    System.out.println("Entrez des coordonnées au bord du plateau");
+                }
+            }
+            catch(Exception e){
+                System.out.println("Veuillez inscrire des entrées valides ");
+            }
+
         }
     }
 
