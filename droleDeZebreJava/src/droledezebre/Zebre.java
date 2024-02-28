@@ -10,4 +10,12 @@ package droledezebre;
  */
 public class Zebre extends Animaux {
    private boolean cache;
+   public final void trouverIndicateur(){
+       indicateur="Z";
+   }
+   public Zebre(){
+       super();
+       cache=false;
+       trouverIndicateur();
+   }
 }

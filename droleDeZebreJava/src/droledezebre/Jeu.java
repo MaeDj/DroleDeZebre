@@ -43,7 +43,7 @@ public class Jeu implements EntiteJeu {
                 System.out.println("Donnez les coordonnées y(lignes) de votre ImplaJones ");
                 Scanner va=new Scanner(System.in);
                 int y=va.nextInt();
-                if ((x == 0||y==0)&&(x<=6&&y<=7)&&(x>=0&&y>=0)) {
+                if ((x == 0||y==0)&&(x<=8&&y<=7)&&(x>=0&&y>=0)) {
                     repCorrect = true;
                     ImpalaJones impala=new ImpalaJones();
                     

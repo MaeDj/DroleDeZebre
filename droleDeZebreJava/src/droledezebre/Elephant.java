@@ -8,6 +8,12 @@ package droledezebre;
  *
  * @author mae
  */
-public class Elephant {
-    
+public class Elephant extends Animaux {
+     public final void trouverIndicateur(){
+       indicateur="E";
+   }
+      public Elephant(){
+       super();
+       trouverIndicateur();
+   }
 }

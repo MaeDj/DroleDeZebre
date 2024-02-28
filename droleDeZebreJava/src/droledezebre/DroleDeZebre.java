@@ -15,6 +15,12 @@ public class DroleDeZebre {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        Plateau plateau=new Plateau();
+        ImpalaJones impala=new ImpalaJones();
+        Zebre zebre=new Zebre();
+        plateau.getPlateau()[0][1].setPion(impala);
+        plateau.getPlateau()[5][4].setPion(zebre);
+        System.out.println(plateau);
     }
     
 }

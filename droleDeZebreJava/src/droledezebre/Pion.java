@@ -9,5 +9,10 @@ package droledezebre;
  * @author mae
  */
 public abstract class Pion {
-    
+   protected String indicateur; 
+   
+   public String getIndicateur(){
+       return(this.indicateur);
+   }
+   public abstract void trouverIndicateur();
 }
