@@ -17,5 +17,6 @@ public class Zebre extends Animaux {
        super();
        cache=false;
        trouverIndicateur();
+       this.pts=6;
    }
 }

@@ -17,5 +17,6 @@ public class Gazelle extends Animaux {
        super();
        cache=false;
        trouverIndicateur();
+       this.pts=2;
    }
 }

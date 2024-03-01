@@ -18,9 +18,13 @@ public class DroleDeZebre {
         Plateau plateau=new Plateau();
         ImpalaJones impala=new ImpalaJones();
         Zebre zebre=new Zebre();
+        zebre.couleur="v";
         plateau.getPlateau()[0][1].setPion(impala);
         plateau.getPlateau()[5][4].setPion(zebre);
         System.out.println(plateau);
+        
+        Jeu jeu1=new Jeu();
+        jeu1.init();
     }
     
 }

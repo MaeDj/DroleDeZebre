@@ -9,6 +9,8 @@ package droledezebre;
  * @author mae
  */
 public abstract class Animaux extends Pion{
-    protected char couleur;
+   
     protected int pts;
+    
+   
 }

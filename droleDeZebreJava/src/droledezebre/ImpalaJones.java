@@ -15,5 +15,7 @@ public class ImpalaJones extends Pion {
        public ImpalaJones(){
        super();
        trouverIndicateur();
+       this.couleur=null;
    }
+    
 }

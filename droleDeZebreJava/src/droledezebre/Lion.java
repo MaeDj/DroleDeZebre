@@ -15,5 +15,6 @@ public class Lion extends Animaux {
       public Lion(){
        super();
        trouverIndicateur();
+       this.pts=1;
    }
 }

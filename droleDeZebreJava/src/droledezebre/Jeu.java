@@ -12,17 +12,19 @@ import java.util.Scanner;
  *
  * @author mae
  */
-public class Jeu implements EntiteJeu {
+public class Jeu {
 
-    private ArrayList<Joueur> listJoueur;
+    private ArrayList<Joueur> listJoueur=new ArrayList<>();
 
     public void init() {
-        listJoueur.clear(); // dans le cas ou on fiat plusieurs parties d'affilé 
+      
         Plateau plateau1 = new Plateau();
         plateau1.init();
         for (int i = 0; i < 2; i++) { // initialisation des deux joueurs 
-            Joueur j = new Joueur();
-            j.init();
+            Joueur j=new Joueur();
+            String pseudo;
+            pseudo=j.trouverPseudo();
+            j.init(pseudo,listJoueur); 
             listJoueur.add(j);
         }
         Random ra = new Random();
@@ -33,7 +35,7 @@ public class Jeu implements EntiteJeu {
             listJoueur.add(0, temp);
         }
         boolean repCorrect = false;
-        while (repCorrect = false) {
+        while (repCorrect == false) {
             System.out.println(listJoueur.get(1).getPseudo() + " Où voulez vous placer Impala Jones pour ce premier tour? n'oubliez pas que ça doit être une case au bord du plateau! ");
 
             try {
@@ -58,6 +60,7 @@ public class Jeu implements EntiteJeu {
             }
 
         }
+        System.out.println(plateau1);
     }
 
     public void jeu() {

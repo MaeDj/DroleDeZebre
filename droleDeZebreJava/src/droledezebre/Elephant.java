@@ -15,5 +15,6 @@ public class Elephant extends Animaux {
       public Elephant(){
        super();
        trouverIndicateur();
+       this.pts=5;
    }
 }
