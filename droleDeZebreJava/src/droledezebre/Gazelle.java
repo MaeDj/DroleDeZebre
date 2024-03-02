@@ -10,13 +10,11 @@ package droledezebre;
  */
 public class Gazelle extends Animaux {
     private boolean cache;
-     public final void trouverIndicateur(){
-       indicateur="G";
-   }
+     
       public Gazelle(){
        super();
        cache=false;
-       trouverIndicateur();
+       indicateur="G";
        this.pts=2;
    }
 }

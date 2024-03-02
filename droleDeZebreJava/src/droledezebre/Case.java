@@ -10,7 +10,7 @@ package droledezebre;
  */
 public class Case {
    private Pion pion;
-   private String terrain;
+   private int terrain;
    
    public Pion getPion(){
        if(this.pion==null){
@@ -21,14 +21,14 @@ public class Case {
    public void setPion(Pion newPion){
        this.pion=newPion;
    }
-   public String getTerrain(){
+   public int getTerrain(){
        return(this.terrain);
    }
-   public void setTerrain(String newTerrain){
+   public void setTerrain(int newTerrain){
        this.terrain=newTerrain;
    }
    public Case(){
        pion=null;
-       terrain="0";
+       terrain=0;
    }
 }

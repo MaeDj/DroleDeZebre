@@ -25,6 +25,11 @@ public class DroleDeZebre {
         
         Jeu jeu1=new Jeu();
         jeu1.init();
+        
+         plateau.deplacerImpala(plateau.nbDeplaImpala(), impala);
+        System.out.println(plateau);
+        plateau.deplacerImpala(plateau.nbDeplaImpala(), impala);
+        System.out.println(plateau);
     }
     
 }

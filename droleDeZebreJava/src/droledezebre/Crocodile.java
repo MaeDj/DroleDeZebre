@@ -9,11 +9,10 @@ package droledezebre;
  * @author mae
  */
 public class Crocodile extends Animaux  {
-      public final void trouverIndicateur(){
-       indicateur="C";
-   }
+      
        public Crocodile(){
        super();
-       trouverIndicateur();
+       indicateur="C";
+     
    }
 }

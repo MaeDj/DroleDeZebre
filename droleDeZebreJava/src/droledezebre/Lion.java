@@ -9,12 +9,10 @@ package droledezebre;
  * @author mae
  */
 public class Lion extends Animaux {
-     public final void trouverIndicateur(){
-       indicateur="L";
-   }
+     
       public Lion(){
        super();
-       trouverIndicateur();
+       indicateur="L";
        this.pts=1;
    }
 }

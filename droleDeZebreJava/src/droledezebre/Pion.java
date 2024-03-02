@@ -16,7 +16,7 @@ public abstract class Pion {
    public String getIndicateur(){
        return(this.indicateur);
    }
-   public abstract void trouverIndicateur();
+   
     public String getCouleur(){
         return(this.couleur);
     }

@@ -47,7 +47,7 @@ public class Jeu {
     public void init() {
       
         Plateau plateau1 = new Plateau();
-        plateau1.init();
+        plateau1.init(choixCarte());
         for (int i = 0; i < 2; i++) { // initialisation des deux joueurs 
             Joueur j=new Joueur();
             String pseudo;
@@ -65,6 +65,22 @@ public class Jeu {
         premierePosImpala(plateau1);
         
         System.out.println(plateau1);
+    }
+    public int choixCarte() {
+        int choix = 0;
+
+        while (choix != 1 && choix != 2) {
+            try {
+                System.out.println("Quelle carte souhaitez vous choisir ? \nLa Reserve du President(1) ou La Savane(2)");
+                Scanner scan = new Scanner(System.in);
+                choix = scan.nextInt();
+            } catch (Exception all) {
+            }
+            if (choix != 1 && choix != 2) {
+                System.out.println("Veuillez faire un choix valide");
+            }
+        }
+        return choix;
     }
 
     public void jeu() {
