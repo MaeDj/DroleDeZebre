@@ -8,7 +8,7 @@ package droledezebre;
  *
  * @author mae
  */
-public abstract class Animaux extends Pion{
+public class Animaux extends Pion{
    
     protected int pts;
     

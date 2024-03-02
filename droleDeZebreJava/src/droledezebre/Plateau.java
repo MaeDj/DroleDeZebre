@@ -4,6 +4,7 @@
  */
 package droledezebre;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -186,6 +187,43 @@ public class Plateau {
             this.plateau[dx-nbDepla][0].setPion(Imp);
         } else if(dy == 0 && dx - nbDepla<=0){
             this.plateau[0][1-dx+nbDepla].setPion(Imp);
+        }
+    }
+    
+    public boolean plateauPlein(){//méthode qui détermine si le plateau est plein ou non 
+        return(true);
+    }
+    
+    public ArrayList<int[]> trouverChoixPion(Pion pion){// trouve la liste des coordonnées x et y des cases où le pion peut être placé 
+        ArrayList<int[]> temp=new ArrayList<>();
+        return(temp);
+    }
+    
+    public void poserPion(Joueur j, Animaux choixPion){// methode qui pose le pion au bon endroit du plateau selon le joueur 
+        
+    }
+    public void voirPlateau() {
+        System.out.println("Voulez vous voir le plateau? o/n");
+        Scanner na = new Scanner(System.in);
+        String rep = na.nextLine();
+        boolean entreeCorrect = false;
+        while (!entreeCorrect) {
+            try{
+            if (rep.equals("o")) {
+                System.out.println(this);
+                System.out.println("Maintenant veuillez choisir votre pion");
+                entreeCorrect=true;
+            } else if (rep.equals("n")) {
+                System.out.println("Veuillez donc choisir votre pion directement ");
+                entreeCorrect=true;
+            } else {
+                System.out.println("Veuillez repondre par o pour oui et n pour non");
+            }
+            }
+            catch(Exception e){
+                System.out.println("Veuillez donner une entrée correct");
+                
+            }
         }
     }
 
