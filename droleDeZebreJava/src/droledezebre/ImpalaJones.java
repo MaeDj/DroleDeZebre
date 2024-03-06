@@ -9,13 +9,11 @@ package droledezebre;
  * @author mae
  */
 public class ImpalaJones extends Pion {
-      public void trouverIndicateur(){
-       indicateur="Imp";
-   }
+    
        public ImpalaJones(){
        super();
-       trouverIndicateur();
        this.couleur=null;
+       this.indicateur="Imp";
    }
     
 }

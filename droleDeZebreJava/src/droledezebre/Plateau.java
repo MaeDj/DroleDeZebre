@@ -51,6 +51,14 @@ public class Plateau {
         return (retour);
     }
 
+    public void verifAnimalPeureux(int xLiCro, int yLiCro) { // sert à vérifier si il y a un zebre ou une gazelle à proximité du lion et à agir en consequence 
+
+    }
+
+    public void verifAnimalAgressif(int xGaZe, int yGaZe) { // verifie si il y a un animal agressif autour de la gazelle ou du zebre à poser et agit en consequence 
+
+    }
+
     public void init(int carte) {
 
         if (carte == 1 || carte == 2) {
@@ -154,14 +162,14 @@ public class Plateau {
         return choix;
     }
 
-    public void deplacerImpala(int nbDepla, ImpalaJones Imp) {
+    public void deplacerImpala(int nbDepla) {
 
         int dx = 0, dy = 0;
 
         for (int lignes = 0; lignes < 7; lignes++) {
             for (int colonnes = 0; colonnes < 8; colonnes++) {
                 if (this.plateau[lignes][colonnes].getPion() != null) {
-                    if (this.plateau[lignes][colonnes].getPion().equals(Imp)) {
+                    if (this.plateau[lignes][colonnes].getPion().indicateur.equals("Imp")) {
                         dx = lignes;
                         dy = colonnes;
                         System.out.println("dx : " + dx + " /dy : " + dy);
@@ -170,59 +178,62 @@ public class Plateau {
                 }
             }
         }
-
+        ImpalaJones imp = new ImpalaJones();
         if (dx == 0 && dy + nbDepla < 7) {
-            this.plateau[dx][dy + nbDepla].setPion(Imp);
+            this.plateau[dx][dy + nbDepla].setPion(imp);
         } else if (dx == 0 && dy + nbDepla >= 7) {
-            this.plateau[-6 +dy+nbDepla][7].setPion(Imp);
-        } else if (dy == 7 && dx + nbDepla <6) {
-            this.plateau[dx+nbDepla][dy].setPion(Imp);
-        } else if (dy == 7 && dx + nbDepla >= 6){
-            this.plateau[6][(6-nbDepla)+(6-dx)].setPion(Imp);
-        } else if(dx==6 && dy-nbDepla>0){
-            this.plateau[dx][dy - nbDepla].setPion(Imp);
-        } else if(dx ==6 && dy-nbDepla<=0){
-            this.plateau[5+(dy-nbDepla)][0].setPion(Imp);
-        } else if(dy == 0 && dx - nbDepla>0){
-            this.plateau[dx-nbDepla][0].setPion(Imp);
-        } else if(dy == 0 && dx - nbDepla<=0){
-            this.plateau[0][1-dx+nbDepla].setPion(Imp);
+            this.plateau[-6 + dy + nbDepla][7].setPion(imp);
+        } else if (dy == 7 && dx + nbDepla < 6) {
+            this.plateau[dx + nbDepla][dy].setPion(imp);
+        } else if (dy == 7 && dx + nbDepla >= 6) {
+            this.plateau[6][(6 - nbDepla) + (6 - dx)].setPion(imp);
+        } else if (dx == 6 && dy - nbDepla > 0) {
+            this.plateau[dx][dy - nbDepla].setPion(imp);
+        } else if (dx == 6 && dy - nbDepla <= 0) {
+            this.plateau[5 + (dy - nbDepla)][0].setPion(imp);
+        } else if (dy == 0 && dx - nbDepla > 0) {
+            this.plateau[dx - nbDepla][0].setPion(imp);
+        } else if (dy == 0 && dx - nbDepla <= 0) {
+            this.plateau[0][1 - dx + nbDepla].setPion(imp);
         }
     }
-    
-    public boolean plateauPlein(){//méthode qui détermine si le plateau est plein ou non 
-        return(true);
+
+    public boolean plateauPlein() {//méthode qui détermine si le plateau est plein ou non 
+        return (false);
     }
-    
-    public ArrayList<int[]> trouverChoixPion(Pion pion){// trouve la liste des coordonnées x et y des cases où le pion peut être placé 
-        ArrayList<int[]> temp=new ArrayList<>();
-        return(temp);
+
+    public ArrayList<int[]> trouverChoixPion(Pion pion) {// trouve la liste des coordonnées x et y des cases où le pion peut être placé 
+        ArrayList<int[]> temp = new ArrayList<>();
+        return (temp);
     }
-    
-    public void poserPion(Joueur j, Animaux choixPion){// methode qui pose le pion au bon endroit du plateau selon le joueur 
-        
+
+    public void poserPion(Joueur j, int[] choixJoueur, Animaux choixPion) {// methode qui pose le pion au bon endroit du plateau selon le joueur 
+        //faire les verifs pour le zebre et ma gazelle  
+        //appeler verifAnimalAgressif pour cela 
     }
+
     public void voirPlateau() {
-        System.out.println("Voulez vous voir le plateau? o/n");
-        Scanner na = new Scanner(System.in);
-        String rep = na.nextLine();
+
         boolean entreeCorrect = false;
         while (!entreeCorrect) {
-            try{
-            if (rep.equals("o")) {
-                System.out.println(this);
-                System.out.println("Maintenant veuillez choisir votre pion");
-                entreeCorrect=true;
-            } else if (rep.equals("n")) {
-                System.out.println("Veuillez donc choisir votre pion directement ");
-                entreeCorrect=true;
-            } else {
-                System.out.println("Veuillez repondre par o pour oui et n pour non");
-            }
-            }
-            catch(Exception e){
+            try {
+                System.out.println("Voulez vous voir le plateau? o/n");
+                Scanner na = new Scanner(System.in);
+                String rep = na.nextLine();
+                if (rep.equals("o")||rep.equals("O")) {
+                    System.out.println(this);
+                    System.out.println("Maintenant veuillez choisir votre pion");
+                    entreeCorrect = true;
+                } else if (rep.equals("n")||rep.equals("N")) {
+                    System.out.println("Veuillez donc choisir votre pion directement ");
+                    entreeCorrect = true;
+                } else {
+                    System.out.println("Veuillez repondre par o pour oui et n pour non");
+                    entreeCorrect = false;
+                }
+            } catch (Exception e) {
                 System.out.println("Veuillez donner une entrée correct");
-                
+                entreeCorrect = false;
             }
         }
     }

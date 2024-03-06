@@ -45,7 +45,6 @@ public class Jeu {
 
     public void init(Plateau plateau1, Jeu jeu1) { // creer le plateau et le jeu dans le main
 
-        plateau1 = new Plateau();
         plateau1.init(choixCarte());
         for (int i = 0; i < 2; i++) { // initialisation des deux joueurs 
             Joueur j = new Joueur();
@@ -64,6 +63,7 @@ public class Jeu {
         premierePosImpala(plateau1);
 
         System.out.println(plateau1);
+
     }
 
     public int choixCarte() { //Demande au joueur la carte qu'il veut utiliser et récupérer un indicateur utilisé dans les autres méthodes 
@@ -83,7 +83,7 @@ public class Jeu {
         return choix;
     }
 
-    public int[] proposerChoixPion(ArrayList<int[]> tabRep) {//demande à l'utilisateur quelle case il veut jouer parmis la liste proposée 
+    public int[] proposerChoixCase(ArrayList<int[]> tabRep) {//demande à l'utilisateur quelle case il veut jouer parmis la liste proposée 
         int[] temp = new int[2];
         return (temp);
     }
@@ -94,21 +94,26 @@ public class Jeu {
 
     }
 
-    
-
     public void jeu(Jeu jeu1, Plateau plateau1) {
         jeu1.init(plateau1, jeu1);
         ArrayList<int[]> choixCase = new ArrayList<>();
         while (!plateau1.plateauPlein()) {
             for (int i = 0; i < 2; i++) {
+               
                 System.out.println("C'est au tour de " + this.listJoueur.get(i).getPseudo());
                 plateau1.voirPlateau();
                 choixCase.clear();
                 Animaux choixPion = new Animaux();
-                choixCase = plateau1.trouverChoixPion(choixPion);
-                int[] choixJoueur = new int[2];
-                choixJoueur = jeu1.proposerChoixPion(choixCase);
-                plateau1.poserPion(this.listJoueur.get(i), choixPion);
+                choixPion = this.listJoueur.get(i).proposerPion();//propose au joueur la liste des pions qu'il peut jouer
+                choixCase = plateau1.trouverChoixPion(choixPion);//trouver la liste des cases dispo
+                int[] choixJoueur = new int[2];//première case pour x et l'autre pour y 
+                choixJoueur = jeu1.proposerChoixCase(choixCase);// demande au joueur sur quelle case il veut poser son pion
+                plateau1.poserPion(this.listJoueur.get(i), choixJoueur, choixPion);
+                if (choixPion.getClass().getName().equals("Lion") || choixPion.getClass().getName().equals("Crocodile")) {
+                    plateau1.verifAnimalPeureux(choixJoueur[0], choixJoueur[1]);
+                }
+                int nbDeplaImpala = plateau1.nbDeplaImpala();
+                plateau1.deplacerImpala(nbDeplaImpala);
             }
         }
 

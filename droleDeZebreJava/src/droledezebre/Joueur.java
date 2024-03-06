@@ -29,6 +29,9 @@ public class Joueur  {
            return("r");
        }
     }
+    public ArrayList<Animaux> getMain(){
+        return(this.main);
+    }
     public ArrayList<Animaux> trouverMainJoueur(){
         ArrayList<Animaux> mainJoueur =new ArrayList<>();
         for(int i=0;i<6;i++){        
@@ -56,6 +59,39 @@ public class Joueur  {
          
          return(mainJoueur);
         
+    }
+    public Animaux proposerPion() {
+        System.out.println("Quel Pion voulez vous poser? \n");
+        ArrayList<Animaux> pionAJouer = new ArrayList<>();
+        for (int i = 0; i < this.getMain().size(); i++) {
+            boolean presence = false;
+            for (int k = 0; k < pionAJouer.size(); k++) {
+                if (this.getMain().get(i).getIndicateur().equals(pionAJouer.get(k).getIndicateur())) {
+                    presence = true;
+                }
+            }
+            if (presence == false) {
+                pionAJouer.add(this.getMain().get(i));
+            }
+        }
+        System.out.println("Vous pouvez poser:");
+        for (int l = 0; l < pionAJouer.size(); l++) {
+            System.out.println(l + 1 + ": " + pionAJouer.get(l).getIndicateur());
+        }
+        boolean bonneReponse = false;
+        while (bonneReponse == false) {
+            try {
+                Scanner sc = new Scanner(System.in);
+                int rep = sc.nextInt();
+                bonneReponse = true;
+                return (pionAJouer.get(rep - 1));
+            } catch (Exception e) {
+                System.out.println("Veuillez entrer le numero du pion que vous voulez jouer");
+
+            }
+        }
+
+        return (null);
     }
     public void init(String pseudo,ArrayList listJoueur){
         this.pseudo=pseudo;
