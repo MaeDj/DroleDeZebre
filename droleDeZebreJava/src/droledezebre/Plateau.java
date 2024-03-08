@@ -202,9 +202,36 @@ public class Plateau {
         return (false);
     }
 
-    public ArrayList<int[]> trouverChoixPion(Pion pion) {// trouve la liste des coordonnées x et y des cases où le pion peut être placé 
-        ArrayList<int[]> temp = new ArrayList<>();
-        return (temp);
+    public ArrayList<int[]> trouverChoixPion() {// trouve la liste des coordonnées x et y des cases où le pion peut être placé 
+        ArrayList<int[]> retour = new ArrayList<>();
+        int[] coordoImp = new int[2];
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (this.plateau[i][j].getPion() != null) {
+                    if (this.plateau[i][j].getPion() instanceof ImpalaJones) {
+                        coordoImp[0] = i;
+                        coordoImp[1] = j;
+                    }
+                }
+            }
+        }
+        
+        if (coordoImp[0] == 0 || coordoImp[0] == 6) {
+            for (int k = 1; k < 7; k++) {
+                if (this.plateau[coordoImp[0]][k].getPion() == null) {
+                    int[] tab = new int[]{k,coordoImp[1]};
+                    retour.add(tab);
+                }
+            }
+        } else if(coordoImp[1]==0||coordoImp[1]==7){
+            for (int l = 1; l < 6; l++) {
+                if (this.plateau[coordoImp[0]][l].getPion() == null) {
+                    int[] tab = new int[]{coordoImp[0], l};
+                    retour.add(tab);
+                }
+            }
+        }
+        return (retour);
     }
 
     public void poserPion(Joueur j, int[] choixJoueur, Animaux choixPion) {// methode qui pose le pion au bon endroit du plateau selon le joueur 
@@ -220,11 +247,11 @@ public class Plateau {
                 System.out.println("Voulez vous voir le plateau? o/n");
                 Scanner na = new Scanner(System.in);
                 String rep = na.nextLine();
-                if (rep.equals("o")||rep.equals("O")) {
+                if (rep.equals("o") || rep.equals("O")) {
                     System.out.println(this);
                     System.out.println("Maintenant veuillez choisir votre pion");
                     entreeCorrect = true;
-                } else if (rep.equals("n")||rep.equals("N")) {
+                } else if (rep.equals("n") || rep.equals("N")) {
                     System.out.println("Veuillez donc choisir votre pion directement ");
                     entreeCorrect = true;
                 } else {

@@ -84,8 +84,26 @@ public class Jeu {
     }
 
     public int[] proposerChoixCase(ArrayList<int[]> tabRep) {//demande à l'utilisateur quelle case il veut jouer parmis la liste proposée 
-        int[] temp = new int[2];
-        return (temp);
+        int[] retour= new int[2];
+        System.out.println("Voici les cases que vous pouvez choisir");
+        for(int i=0;i<tabRep.size();i++){
+            System.out.println((i+1) +": ligne:"+(tabRep.get(i)[0]+1)+" colonne:"+(tabRep.get(i)[1]+1));
+        }
+        boolean bonneReponse=false;
+        while(!bonneReponse)
+        try{
+           Scanner scanner=new Scanner(System.in);
+            int rep=scanner.nextInt();
+            
+            retour[0]=tabRep.get(rep-1)[0];
+            retour[1]=tabRep.get(rep-1)[1];
+            bonneReponse=true;
+        }
+        catch(Exception e){
+            System.out.println("Veuillez entrer une valeur valide");
+            
+        }
+        return (retour);
     }
 
     public Animaux demanderPionAJouer() { // methode qui demande au joueur quel pion il veut jouer 
@@ -105,7 +123,7 @@ public class Jeu {
                 choixCase.clear();
                 Animaux choixPion = new Animaux();
                 choixPion = this.listJoueur.get(i).proposerPion();//propose au joueur la liste des pions qu'il peut jouer
-                choixCase = plateau1.trouverChoixPion(choixPion);//trouver la liste des cases dispo
+                choixCase = plateau1.trouverChoixPion();//trouver la liste des cases dispo
                 int[] choixJoueur = new int[2];//première case pour x et l'autre pour y 
                 choixJoueur = jeu1.proposerChoixCase(choixCase);// demande au joueur sur quelle case il veut poser son pion
                 plateau1.poserPion(this.listJoueur.get(i), choixJoueur, choixPion);
