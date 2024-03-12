@@ -8,9 +8,11 @@ package droledezebre;
  *
  * @author mae
  */
-public class Animaux extends Pion{
+public abstract class Animal extends Pion{
    
     protected int pts;
     
-   
+    public String toString(){
+       return("nb de pts"+this.pts+"indicateur "+this.indicateur+" couleur"+this.couleur);
+    }
 }

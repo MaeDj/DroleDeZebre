@@ -15,11 +15,14 @@ public class Joueur  {
     private String pseudo;
     private int nbPoint;
     private String couleur;
-    private ArrayList<Animaux> main;
+    private ArrayList<Animal> main;
     private boolean inauguration;
     
     public String getPseudo(){
         return(this.pseudo);
+    }
+    public String getCouleur(){
+        return(this.couleur);
     }
     public String trouverCouleur(ArrayList listJoueur){
        if(listJoueur.isEmpty()){
@@ -29,11 +32,11 @@ public class Joueur  {
            return("r");
        }
     }
-    public ArrayList<Animaux> getMain(){
+    public ArrayList<Animal> getMain(){
         return(this.main);
     }
-    public ArrayList<Animaux> trouverMainJoueur(){
-        ArrayList<Animaux> mainJoueur =new ArrayList<>();
+    public ArrayList<Animal> trouverMainJoueur(){
+        ArrayList<Animal> mainJoueur =new ArrayList<>();
         for(int i=0;i<6;i++){        
         Gazelle gazelle=new Gazelle();
         gazelle.couleur=this.couleur;
@@ -60,9 +63,9 @@ public class Joueur  {
          return(mainJoueur);
         
     }
-    public Animaux proposerPion() {
+    public Animal proposerPion() {
         System.out.println("Quel Pion voulez vous poser? \n");
-        ArrayList<Animaux> pionAJouer = new ArrayList<>();
+        ArrayList<Animal> pionAJouer = new ArrayList<>();
         for (int i = 0; i < this.getMain().size(); i++) {
             boolean presence = false;
             for (int k = 0; k < pionAJouer.size(); k++) {
@@ -81,6 +84,7 @@ public class Joueur  {
         boolean bonneReponse = false;
         while (bonneReponse == false) {
             try {
+                System.out.println("Séléctionnez le numero du pion que vous voulez jouer ");
                 Scanner sc = new Scanner(System.in);
                 int rep = sc.nextInt();
                 bonneReponse = true;

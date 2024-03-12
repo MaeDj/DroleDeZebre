@@ -8,8 +8,15 @@ package droledezebre;
  *
  * @author mae
  */
-public class Gazelle extends Animaux {
+public class Gazelle extends Animal {
     private boolean cache;
+    
+    public void setCache(boolean a ){
+        this.cache=a;
+    }
+    public boolean getCache(){
+        return(this.cache);
+    }
      
       public Gazelle(){
        super();

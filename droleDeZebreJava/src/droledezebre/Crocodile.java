@@ -8,11 +8,11 @@ package droledezebre;
  *
  * @author mae
  */
-public class Crocodile extends Animaux  {
+public class Crocodile extends Animal  {
       
        public Crocodile(){
        super();
        indicateur="C";
-     
+       this.pts=0;
    }
 }

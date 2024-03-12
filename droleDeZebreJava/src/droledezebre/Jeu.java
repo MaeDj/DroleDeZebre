@@ -16,34 +16,11 @@ public class Jeu {
 
     private ArrayList<Joueur> listJoueur = new ArrayList<>();
 
-    public void premierePosImpala(Plateau plateau1) {//premier placement de l'impala Jones 
-        boolean repCorrect = false;
-        while (repCorrect == false) {
-            System.out.println(listJoueur.get(1).getPseudo() + " Où voulez vous placer Impala Jones pour ce premier tour? n'oubliez pas que ça doit être une case au bord du plateau! ");
-
-            try {
-                System.out.println("Donnez les coordonnées x (colonnes)de votre ImpalaJones, ");
-                Scanner na = new Scanner(System.in);
-                int x = na.nextInt();
-                System.out.println("Donnez les coordonnées y(lignes) de votre ImplaJones ");
-                Scanner va=new   Scanner(System.in);
-                int y = va.nextInt();
-                if ((x == 0 || y == 0 || x == 7 || y == 6) && (x <= 8 && y <= 7) && (x >= 0 && y >= 0) && !((x == 0 && y == 0) || (x == 7 && y == 0) || (x == 7 && y == 6) || (x == 0 && y == 6))) {
-                    repCorrect = true;
-                    ImpalaJones impala = new ImpalaJones();
-
-                    plateau1.getPlateau()[y][x].setPion(impala);
-                } else {
-                    System.out.println("Entrez des coordonnées au bord du plateau");
-                }
-            } catch (Exception e) {
-                System.out.println("Veuillez inscrire des entrées valides ");
-            }
-
-        }
+    public ArrayList<Joueur> getListJoueur() {
+        return (this.listJoueur);
     }
 
-    public void init(Plateau plateau1, Jeu jeu1) { // creer le plateau et le jeu dans le main
+    public void init(Plateau plateau1) { // creer le plateau et le jeu dans le main
 
         plateau1.init(choixCarte());
         for (int i = 0; i < 2; i++) { // initialisation des deux joueurs 
@@ -60,7 +37,7 @@ public class Jeu {
             listJoueur.add(1, listJoueur.get(1));
             listJoueur.add(0, temp);
         }
-        premierePosImpala(plateau1);
+        plateau1.premierePosImpala(this);
 
         System.out.println(plateau1);
 
@@ -84,52 +61,42 @@ public class Jeu {
     }
 
     public int[] proposerChoixCase(ArrayList<int[]> tabRep) {//demande à l'utilisateur quelle case il veut jouer parmis la liste proposée 
-        int[] retour= new int[2];
+        int[] retour = new int[2];
         System.out.println("Voici les cases que vous pouvez choisir");
-        for(int i=0;i<tabRep.size();i++){
-            System.out.println((i+1) +": ligne:"+(tabRep.get(i)[0]+1)+" colonne:"+(tabRep.get(i)[1]+1));
+        for (int i = 0; i < tabRep.size(); i++) {
+            System.out.println((i + 1) + ": ligne:" + (tabRep.get(i)[0] + 1) + " colonne:" + (tabRep.get(i)[1] + 1));
         }
-        boolean bonneReponse=false;
-        while(!bonneReponse)
-        try{
-           Scanner scanner=new Scanner(System.in);
-            int rep=scanner.nextInt();
-            
-            retour[0]=tabRep.get(rep-1)[0];
-            retour[1]=tabRep.get(rep-1)[1];
-            bonneReponse=true;
-        }
-        catch(Exception e){
+        boolean bonneReponse = false;
+        while (!bonneReponse)
+        try {
+            Scanner scanner = new Scanner(System.in);
+            int rep = scanner.nextInt();
+
+            retour[0] = tabRep.get(rep - 1)[0];
+            retour[1] = tabRep.get(rep - 1)[1];
+            bonneReponse = true;
+        } catch (Exception e) {
             System.out.println("Veuillez entrer une valeur valide");
-            
+
         }
         return (retour);
     }
 
-    public Animaux demanderPionAJouer() { // methode qui demande au joueur quel pion il veut jouer 
-        Animaux choixPion = new Animaux();
-        return (choixPion);
-
-    }
-
     public void jeu(Jeu jeu1, Plateau plateau1) {
-        jeu1.init(plateau1, jeu1);
+        jeu1.init(plateau1);
         ArrayList<int[]> choixCase = new ArrayList<>();
         while (!plateau1.plateauPlein()) {
             for (int i = 0; i < 2; i++) {
-               
+
                 System.out.println("C'est au tour de " + this.listJoueur.get(i).getPseudo());
                 plateau1.voirPlateau();
                 choixCase.clear();
-                Animaux choixPion = new Animaux();
-                choixPion = this.listJoueur.get(i).proposerPion();//propose au joueur la liste des pions qu'il peut jouer
-                choixCase = plateau1.trouverChoixPion();//trouver la liste des cases dispo
+                Animal choixPion = this.listJoueur.get(i).proposerPion();//propose au joueur la liste des pions qu'il peut jouer
+                choixCase = plateau1.trouverCoordonneesCasesDispo();//trouver la liste des cases dispo
                 int[] choixJoueur = new int[2];//première case pour x et l'autre pour y 
                 choixJoueur = jeu1.proposerChoixCase(choixCase);// demande au joueur sur quelle case il veut poser son pion
-                plateau1.poserPion(this.listJoueur.get(i), choixJoueur, choixPion);
-                if (choixPion.getClass().getName().equals("Lion") || choixPion.getClass().getName().equals("Crocodile")) {
-                    plateau1.verifAnimalPeureux(choixJoueur[0], choixJoueur[1]);
-                }
+                plateau1.poserPion(this, i, choixJoueur, choixPion);
+                System.out.println(plateau1);
                 int nbDeplaImpala = plateau1.nbDeplaImpala();
                 plateau1.deplacerImpala(nbDeplaImpala);
             }
