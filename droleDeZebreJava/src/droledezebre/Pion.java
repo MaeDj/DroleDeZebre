@@ -20,4 +20,7 @@ public abstract class Pion {
     public String getCouleur(){
         return(this.couleur);
     }
+    public void setCouleur(String v){ //uniquement test 
+         this.couleur=v;
+     }
 }

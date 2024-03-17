@@ -8,7 +8,7 @@ package droledezebre;
  *
  * @author mae
  */
-public class Zebre extends Animal {
+public final class Zebre extends Animal {
    private boolean cache;
    
      public void setCache(boolean a ){
@@ -17,6 +17,7 @@ public class Zebre extends Animal {
      public boolean getCache(){
         return(this.cache);
     }
+     
    public Zebre(){
        super();
        cache=false;

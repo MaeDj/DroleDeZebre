@@ -18,6 +18,7 @@ public class Plateau {
     public Case[][] getPlateau() {
         return (this.plateau);
     }
+     
 
     public String toString() {
         String retour = "";
@@ -92,6 +93,27 @@ public class Plateau {
                 System.out.println("Veuillez inscrire des entrées valides ");
             }
 
+        }
+    }
+    
+    public boolean inauguration(int [] coordo,Joueur joueur){
+        boolean plein=true;
+        for(int i=0;i<7;i++){
+            for(int j=0;j<8;j++){
+                if(this.plateau[i][j].getTerrain()==this.plateau[coordo[0]][coordo[1]].getTerrain()){
+                    if(this.plateau[i][j].getPion()==null){
+                        plein=false;
+                    }
+                }
+            }
+        }
+        if(plein){
+            joueur.setInauguration(true);
+            System.out.println("Pour avoir rempli le premier secteur, vous remportez le point inauguration");
+            return(true);
+        }
+        else{
+            return(false);
         }
     }
 
@@ -489,6 +511,8 @@ public class Plateau {
             }
         }
     }
+    
+   
 
     public Plateau() {
         for (int i = 0; i < 7; i++) {

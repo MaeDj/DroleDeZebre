@@ -18,11 +18,23 @@ public class Joueur  {
     private ArrayList<Animal> main;
     private boolean inauguration;
     
+    public boolean getInauguration(){
+        return(this.inauguration);
+    }
+    public void setInauguration(boolean a){
+        this.inauguration=a;
+    }
     public String getPseudo(){
         return(this.pseudo);
     }
     public String getCouleur(){
         return(this.couleur);
+    }
+    public void setNbPoint(int newPts){
+        this.nbPoint=newPts;
+    }
+    public int getNbPoint(){
+        return(this.nbPoint);
     }
     public String trouverCouleur(ArrayList listJoueur){
        if(listJoueur.isEmpty()){
@@ -111,5 +123,21 @@ public class Joueur  {
         Scanner sc=new Scanner(System.in);
         pseudo=sc.nextLine();
         return(pseudo);
+    }
+    public Joueur(){ // à enlever  pour test compterPts 
+        this.pseudo=null;
+        this.nbPoint=0;
+        this.main=null;
+        this.inauguration=false;
+        this.couleur=null;
+        
+    }
+    public Joueur(String pseudo1,boolean inauguration1, String couleur1){ //à enlever, pour test compterPts
+        this.inauguration=inauguration1;
+        this.couleur=couleur1;
+        this.nbPoint=0;
+        this.pseudo=pseudo1;
+         
+      
     }
 }

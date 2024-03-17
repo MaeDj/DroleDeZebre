@@ -8,7 +8,7 @@ package droledezebre;
  *
  * @author mae
  */
-public class Gazelle extends Animal {
+public final class Gazelle extends Animal {
     private boolean cache;
     
     public void setCache(boolean a ){

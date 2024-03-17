@@ -15,4 +15,7 @@ public abstract class Animal extends Pion{
     public String toString(){
        return("nb de pts"+this.pts+"indicateur "+this.indicateur+" couleur"+this.couleur);
     }
+    public int getPts(){
+        return(this.pts);
+    }
 }

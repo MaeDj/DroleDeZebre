@@ -8,7 +8,7 @@ package droledezebre;
  *
  * @author mae
  */
-public class Elephant extends Animal {
+public final class Elephant extends Animal {
     
       public Elephant(){
        super();
