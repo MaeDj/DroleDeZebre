@@ -20,7 +20,7 @@ public class DroleDeZebre {
       
         
         Jeu jeu1=new Jeu();
-        jeu1.jeu(jeu1);
+        jeu1.jeu();
         
         // test de compter point 
         /*

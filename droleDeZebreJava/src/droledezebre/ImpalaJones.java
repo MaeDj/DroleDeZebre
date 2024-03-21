@@ -8,7 +8,7 @@ package droledezebre;
  *
  * @author mae
  */
-public class ImpalaJones extends Pion {
+public final class ImpalaJones extends Pion {
     
        public ImpalaJones(){
        super();

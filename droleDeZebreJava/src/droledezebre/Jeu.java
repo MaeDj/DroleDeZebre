@@ -7,6 +7,7 @@ package droledezebre;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -23,7 +24,7 @@ public class Jeu {
     public void setPlateauDejeu(Plateau plateau){//à supprimer=> pour tester compter point 
         this.plateauDeJeu=plateau;
     }
-    public Plateau getPlateauDejeu(){//à supprimer=> pour tester compter point 
+    public Plateau getPlateauDejeu(){//interface
         return(this.plateauDeJeu);
     }
     public void init() { // creer le plateau et le jeu dans le main
@@ -36,7 +37,7 @@ public class Jeu {
             j.init(pseudo, listJoueur);
             listJoueur.add(j);
         }
-        Random ra = new Random();//mélange les deuc joueur: premier tour aléatoire 
+        Random ra = new Random();//mélange les deux joueurs: premier tour aléatoire 
         int place = ra.nextInt(1) + 1;
         if (place == 2) {
             Joueur temp = listJoueur.get(2);
@@ -48,6 +49,8 @@ public class Jeu {
         System.out.println(this.plateauDeJeu);
 
     }
+     
+
 
     public int choixCarte() { //Demande au joueur la carte qu'il veut utiliser et récupérer un indicateur utilisé dans les autres méthodes 
         int choix = 0;
@@ -174,8 +177,8 @@ public class Jeu {
         return (retour);
     }
 
-    public void jeu(Jeu jeu1) {
-        jeu1.init();
+    public void jeu() {
+        this.init();
         ArrayList<int[]> choixCase = new ArrayList<>();
         boolean inauguFaite = false;
         while (!this.plateauDeJeu.plateauPlein()) {
@@ -187,14 +190,13 @@ public class Jeu {
                     Animal choixPion = this.listJoueur.get(i).proposerPion();//propose au joueur la liste des pions qu'il peut jouer
                     choixCase = this.plateauDeJeu.trouverCoordonneesCasesDispo();//trouver la liste des cases dispo
                     int[] choixJoueur = new int[2];//première case pour x et l'autre pour y 
-                    choixJoueur = jeu1.proposerChoixCase(choixCase);// demande au joueur sur quelle case il veut poser son pion
+                    choixJoueur = this.proposerChoixCase(choixCase);// demande au joueur sur quelle case il veut poser son pion
                    this.plateauDeJeu.poserPion(this, i, choixJoueur, choixPion);
                     if (this.listJoueur.get(0).getInauguration() == false && this.listJoueur.get(1).getInauguration() == false) {
                        this.plateauDeJeu.inauguration(choixJoueur, this.listJoueur.get(i));
                     }
                     System.out.println(this.plateauDeJeu);
-                    int nbDeplaImpala = this.plateauDeJeu.nbDeplaImpala();
-                    this.plateauDeJeu.deplacerImpala(nbDeplaImpala);
+                    this.plateauDeJeu.deplacementImpala();
                 }
             }
         }

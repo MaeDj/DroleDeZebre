@@ -42,19 +42,19 @@ public class Plateau {
                         if (this.plateau[i][j].getPion() instanceof Gazelle) {
                             Gazelle gazelle = (Gazelle) this.plateau[i][j].getPion();
                             if (gazelle.getCache()) {
-                                retour = retour + this.plateau[i][j].getPion().getIndicateur() + this.plateau[i][j].getPion().getCouleur() + this.getPlateau()[i][j].getTerrain() + "C";
+                                retour = retour + this.plateau[i][j].getPion() + this.getPlateau()[i][j].getTerrain() + "C";
                             } else {
-                                retour = retour + this.plateau[i][j].getPion().getIndicateur() + this.plateau[i][j].getPion().getCouleur() + this.getPlateau()[i][j].getTerrain() + " ";
+                                retour = retour + this.plateau[i][j].getPion() + this.getPlateau()[i][j].getTerrain() + " ";
                             }
                         } else if (this.plateau[i][j].getPion() instanceof Zebre) {
                             Zebre zebre = (Zebre) this.plateau[i][j].getPion();
                             if (zebre.getCache()) {
-                                retour = retour + this.plateau[i][j].getPion().getIndicateur() + this.plateau[i][j].getPion().getCouleur() + this.getPlateau()[i][j].getTerrain() + "C";
+                                retour = retour + this.plateau[i][j].getPion() + this.getPlateau()[i][j].getTerrain() + "C";
                             } else {
-                                retour = retour + this.plateau[i][j].getPion().getIndicateur() + this.plateau[i][j].getPion().getCouleur() + this.getPlateau()[i][j].getTerrain() + " ";
+                                retour = retour + this.plateau[i][j].getPion()+ this.getPlateau()[i][j].getTerrain() + " ";
                             }
                         } else {
-                            retour = retour + this.plateau[i][j].getPion().getIndicateur() + this.plateau[i][j].getPion().getCouleur() + this.getPlateau()[i][j].getTerrain() + " ";
+                            retour = retour + this.plateau[i][j].getPion() + this.getPlateau()[i][j].getTerrain() + " ";
                         }
 
                     }
@@ -360,6 +360,7 @@ public class Plateau {
         return choix;
     }
 
+    // Méthode qui permet de trouver Impala Jones sur le plateau
     public int[] trouverImpala() {
 
         int[] coord = new int[2];
@@ -370,8 +371,7 @@ public class Plateau {
                     if (this.plateau[lignes][colonnes].getPion().indicateur.equals("Imp")) {
                         coord[0] = lignes;
                         coord[1] = colonnes;
-                        System.out.println("dx : " + coord[0] + " /dy : " + coord[1]); // A METTRE EN COMM PLUS TARD
-                        this.plateau[coord[0]][coord[1]].setPion(null);
+                        //System.out.println("dx : " + coord[0] + " /dy : " + coord[1]);
                     }
                 }
             }
@@ -380,6 +380,8 @@ public class Plateau {
         return coord;
     }
 
+
+     // Méthode de base permettant de déplacer Impala de 1 2 ou 3 cases
     public void deplacerImpala(int nbDepla) {
 
         int dx = 0, dy = 0;
@@ -405,9 +407,252 @@ public class Plateau {
         } else if (dy == 0 && dx - nbDepla <= 0) {
             this.plateau[0][1 - dx + nbDepla].setPion(imp);
         }
+
+        this.plateau[dx][dy].setPion(null);
     }
 
-    public boolean verifLigCoVide(int dx, int dy) {
+    // FONCTION GLOBALE DU DEPLACEMENT DIMPALA
+    //
+    // Modifier pour rajouter la méthode scanner du nb de déplacement.
+    public void deplacementImpala() {
+
+        int[] coordsImp = this.trouverImpala();
+
+        // Partie qui vérifie qu'impala est plaçable dans les 3 prochaines cases
+        int compteurVerif = 1;
+        ArrayList<Integer> deplaPossibles = new ArrayList<>();
+        while (compteurVerif != 4) {
+            boolean deplaUser = false;
+            if (coordsImp[0] == 0 && coordsImp[1] + compteurVerif < 7) {
+                deplaUser = this.verifLigCoVide(coordsImp[0], coordsImp[1] + compteurVerif);
+            } else if (coordsImp[0] == 0 && coordsImp[1] + compteurVerif >= 7) {
+                deplaUser = this.verifLigCoVide((-6 + coordsImp[1] + compteurVerif), 7);
+            } else if (coordsImp[1] == 7 && coordsImp[0] + compteurVerif < 6) {
+                deplaUser = this.verifLigCoVide(coordsImp[0] + compteurVerif, coordsImp[1]);
+            } else if (coordsImp[1] == 7 && coordsImp[0] + compteurVerif >= 6) {
+                deplaUser = this.verifLigCoVide(6, (6 - compteurVerif) + (6 - coordsImp[0]));
+            } else if (coordsImp[0] == 6 && coordsImp[1] - compteurVerif > 0) {
+                deplaUser = this.verifLigCoVide(coordsImp[0], coordsImp[1] - compteurVerif);
+            } else if (coordsImp[0] == 6 && coordsImp[1] - compteurVerif <= 0) {
+                deplaUser = this.verifLigCoVide(5 + (coordsImp[1] - compteurVerif), 0);
+            } else if (coordsImp[1] == 0 && coordsImp[0] - compteurVerif > 0) {
+                deplaUser = this.verifLigCoVide(coordsImp[0] - compteurVerif, 0);
+            } else if (coordsImp[1] == 0 && coordsImp[0] - compteurVerif <= 0) {
+                deplaUser = this.verifLigCoVide(0, 1 - coordsImp[0] + compteurVerif);
+            }
+
+            if (deplaUser == true) {
+                deplaPossibles.add((Integer) compteurVerif);
+            }
+            compteurVerif++;
+        }
+
+        //Partie qui demande à l'utilisateur le déplacement qu'il souhaite effectuer(si possible), ou deplace automatiquement Impala.
+        if (!deplaPossibles.isEmpty()) {
+            System.out.println("Comment voulez-vous déplacer Impala Jones ?");
+            for (int i = 0; i < deplaPossibles.size(); i++) {
+                System.out.println(i + 1 + " : Deplacer de " + deplaPossibles.get(i) + " case(s)");
+            }
+            int choix = 0;
+            while (choix != 1 && choix != 2 && choix != 3) {
+                try {
+                    Scanner scan = new Scanner(System.in);
+                    choix = deplaPossibles.get(scan.nextInt() - 1);
+                } catch (Exception all) {
+                    System.out.println("Veuillez faire un choix valide");
+                }
+            }
+            this.deplacerImpala(choix);
+        } else if (deplaPossibles.isEmpty()) {
+            System.out.println("Impala va être automatiquement déplacé");
+            this.deplaImpaAuto(this.prochainePosImpala());
+            System.out.println(this);
+            System.out.println("Impala a été déplacé automatiquement du au manque de place sur les 3 prochaines positions");
+        }
+    }
+    // Méthode qui renvoie un tableau de coordonnées pour la prochaine position possible d'Impala
+    // -- Enlever verif plateau plein car faite dans Jeu ?
+    // -- Modifier les "second" while en for ?  
+    public int[] prochainePosImpala() {
+        int[] coordsImp = this.trouverImpala();
+
+        //On vérifie que le plateau n'est pas plein. S'il ne l'est pas, on peut placer Impala quelque part
+        if (this.plateauPlein()) {
+            System.out.println("Le plateau est plein et Impala ne sera pas déplacé");
+        } else if (!this.plateauPlein()) {
+            boolean deplaPossible = false;
+            int compteurVerif = 4;
+            while (!deplaPossible || compteurVerif < 11) {
+                //System.out.println("tourne inf premier while");
+                if (coordsImp[0] == 0 && coordsImp[1] + compteurVerif < 7) {
+                    if (this.verifLigCoVide(coordsImp[0], coordsImp[1] + compteurVerif)) {
+                        coordsImp[1] += compteurVerif;
+                        return (coordsImp);
+                    }
+                    compteurVerif++;
+
+                    if (coordsImp[1] + compteurVerif == 7) {
+                        coordsImp[0] = 1;
+                        coordsImp[1] = 7;
+
+                        int compteurLigne = 0;
+                        while (!deplaPossible) {
+
+                            if (this.verifLigCoVide(coordsImp[0] + compteurLigne, coordsImp[1])) {
+                                coordsImp[0] += compteurLigne;
+                                return (coordsImp);
+                            }
+                            deplaPossible = this.verifLigCoVide(coordsImp[0] + compteurLigne, coordsImp[1]);
+                            compteurLigne++;
+                            compteurVerif++;
+                        }
+                    }
+                } else if (coordsImp[0] == 0 && coordsImp[1] + compteurVerif >= 7) {
+                    coordsImp[0] = 1;
+                    coordsImp[1] = 7;
+                    int compteurLigne = 0;
+                    while (!deplaPossible) {
+
+                        if (this.verifLigCoVide(coordsImp[0] + compteurLigne, coordsImp[1])) {
+                            coordsImp[0] += compteurLigne;
+                            return (coordsImp);
+                        }
+                        deplaPossible = this.verifLigCoVide(coordsImp[0] + compteurLigne, coordsImp[1]);
+                        compteurLigne++;
+                        compteurVerif++;
+                    }
+                } else if (coordsImp[1] == 7 && coordsImp[0] + compteurVerif < 6) {
+                    if (this.verifLigCoVide(coordsImp[0] + compteurVerif, coordsImp[1])) {
+                        coordsImp[0] += compteurVerif;
+                        return (coordsImp);
+                    }
+                    compteurVerif++;
+
+                    if (coordsImp[0] + compteurVerif == 6) {
+                        coordsImp[0] = 6;
+                        coordsImp[1] = 7;
+
+                        int compteurColonne = 0;
+                        while (!deplaPossible) {
+
+                            if (this.verifLigCoVide(coordsImp[0], coordsImp[1] - compteurColonne)) {
+                                coordsImp[1] -= compteurColonne;
+                                return (coordsImp);
+                            }
+                            deplaPossible = this.verifLigCoVide(coordsImp[0], coordsImp[1] - compteurColonne);
+                            compteurColonne++;
+                            compteurVerif++;
+                        }
+                    }
+                } else if (coordsImp[1] == 7 && coordsImp[0] + compteurVerif >= 6) {
+                    coordsImp[0] = 6;
+                    coordsImp[1] = 7;
+                    int compteurColonne = 0;
+                    while (!deplaPossible) {
+
+                        if (this.verifLigCoVide(coordsImp[0], coordsImp[1] - compteurColonne)) {
+                            coordsImp[1] -= compteurColonne;
+                            return (coordsImp);
+                        }
+                        deplaPossible = this.verifLigCoVide(coordsImp[0], coordsImp[1] - compteurColonne);
+                        compteurColonne++;
+                        compteurVerif++;
+                    }
+                } else if (coordsImp[0] == 6 && coordsImp[1] - compteurVerif > 0) {
+                    if (this.verifLigCoVide(coordsImp[0], coordsImp[1] - compteurVerif)) {
+                        coordsImp[1] -= compteurVerif;
+                        return (coordsImp);
+                    }
+                    compteurVerif++;
+                    if (coordsImp[1] - compteurVerif == 0) {
+                        coordsImp[0] = 5;
+                        coordsImp[1] = 0;
+                        int compteurLigne = 0;
+                        while (!deplaPossible) {
+                            if (this.verifLigCoVide(coordsImp[0] - compteurLigne, coordsImp[1])) {
+                                coordsImp[0] -= compteurLigne;
+                                return (coordsImp);
+                            }
+                            deplaPossible = this.verifLigCoVide(coordsImp[0] - compteurLigne, coordsImp[1]);
+                            compteurLigne++;
+                            compteurVerif++;
+                        }
+                    }
+                } else if (coordsImp[0] == 6 && coordsImp[1] - compteurVerif <= 0) {
+                    coordsImp[0] = 5;
+                    coordsImp[1] = 0;
+                    int compteurLigne = 0;
+                    while (!deplaPossible) {
+                        if (this.verifLigCoVide(coordsImp[0] - compteurLigne, coordsImp[1])) {
+                            coordsImp[0] -= compteurLigne;
+                            return (coordsImp);
+                        }
+                        deplaPossible = this.verifLigCoVide(coordsImp[0] - compteurLigne, coordsImp[1]);
+                        compteurLigne++;
+                        compteurVerif++;
+                    }
+                } else if (coordsImp[1] == 0 && coordsImp[0] - compteurVerif > 0) {
+                    if (this.verifLigCoVide(coordsImp[0] - compteurVerif, coordsImp[1])) {
+                        coordsImp[0] -= compteurVerif;
+                        return (coordsImp);
+                    }
+                    compteurVerif++;
+                    if (coordsImp[0] - compteurVerif == 0) {
+                        coordsImp[0] = 0;
+                        coordsImp[1] = 1;
+                        int compteurColonne = 0;
+                        while (!deplaPossible) {
+                            if (this.verifLigCoVide(coordsImp[0], coordsImp[1] + compteurColonne)) {
+                                coordsImp[0] += compteurColonne;
+                                return (coordsImp);
+                            }
+                            deplaPossible = this.verifLigCoVide(coordsImp[0], coordsImp[1] + compteurColonne);
+                            compteurColonne++;
+                            compteurVerif++;
+                        }
+                    }
+                } else if (coordsImp[1] == 0 && coordsImp[0] - compteurVerif <= 0) {
+                    coordsImp[0] = 0;
+                    coordsImp[1] = 1;
+                    int compteurColonne = 0;
+                    while (!deplaPossible) {
+                        if (this.verifLigCoVide(coordsImp[0], coordsImp[1] + compteurColonne)) {
+                            coordsImp[0] += compteurColonne;
+                            return (coordsImp);
+                        }
+                        deplaPossible = this.verifLigCoVide(coordsImp[0], coordsImp[1] + compteurColonne);
+                        compteurColonne++;
+                        compteurVerif++;
+                    }
+                }
+            }
+        }
+
+        return coordsImp;
+    }
+
+    // Méthode qui permet de déplacer Impala avec sa case d'arrivée en paramètre.
+    public void deplaImpaAuto(int[] arrivee) {
+        this.plateau[this.trouverImpala()[0]][this.trouverImpala()[1]].setPion(null);
+        this.plateau[arrivee[0]][arrivee[1]].setPion(new ImpalaJones());
+    }
+
+    //méthode qui détermine si le plateau est plein ou non 
+    public boolean plateauPlein() {
+
+        int compteur = 30;
+        for (int i = 1; i < 6; i++) {
+            for (int j = 1; j < 7; j++) {
+                if (this.plateau[i][j].getPion() != null) {
+                    compteur--;
+                }
+            }
+        }
+        return (compteur == 0);
+    }
+
+
+    public boolean verifLigCoVide(int dx, int dy) {// Vérifie si la ligne ou la colonne correspondant à la case donnée en paramètre est vide 
 
         boolean deplaPossible = false;
         int casesVides = 0;
@@ -435,9 +680,7 @@ public class Plateau {
         return deplaPossible;
     }
 
-    public boolean plateauPlein() {//méthode qui détermine si le plateau est plein ou non 
-        return (false);
-    }
+    
 
     public ArrayList<int[]> trouverCoordonneesCasesDispo() {// trouve la liste des coordonnées x et y des cases où le pion peut être placé 
         ArrayList<int[]> retour = new ArrayList<>();
