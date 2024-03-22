@@ -247,7 +247,7 @@ public class Plateau {
                 pion.setCache(true);
                 this.plateau[xGaZe][yGaZe].setPion(pion);
                 System.out.println("Votre Gazelle à l'emplacement [" + xGaZe + ";" + yGaZe + "] s'est cachée ");
-            } else {
+            } else if(this.plateau[xGaZe][yGaZe].getPion() instanceof Zebre){
                 Zebre pion = (Zebre) this.plateau[xGaZe][yGaZe].getPion();
                 pion.setCache(true);
                 this.plateau[xGaZe][yGaZe].setPion(pion);

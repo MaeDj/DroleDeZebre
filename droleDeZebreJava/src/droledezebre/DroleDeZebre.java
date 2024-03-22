@@ -19,12 +19,12 @@ public class DroleDeZebre {
         // TODO code application logic here
       
         
-        Jeu jeu1=new Jeu();
+       Jeu jeu1=new Jeu();
         jeu1.jeu();
         
         // test de compter point 
-        /*
-        Jeu jeu2=new Jeu();
+        
+        /*Jeu jeu2=new Jeu();
         jeu2.getListJoueur().add(new Joueur("A",true,"v"));
         jeu2.getListJoueur().add(new Joueur("B",false,"r"));
         
@@ -35,11 +35,11 @@ public class DroleDeZebre {
         for(int i=1;i<6;i++){
             Zebre zebre =new Zebre();
             zebre.setCouleur("v");
-            plateau1.getPlateau()[i][1].setPion(zebre);
+            plateau1.getPlateau()[i][2].setPion(zebre);
             
             Lion lion =new Lion();
             lion.setCouleur("r");
-            plateau1.getPlateau()[i][2].setPion(lion);
+            plateau1.getPlateau()[i][1].setPion(lion);
             
             if(i==1||i==2||i==3){
             Gazelle gaz=new Gazelle();

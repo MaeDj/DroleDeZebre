@@ -113,7 +113,7 @@ public class Joueur {
         return (pionAJouer);
     }
 
-    public Animal proposerPion() {
+    public Animal proposerPion() { //propose au joueur quel pion il peut jouer
         int[] nbChaquePion=new int[5];
         for(int k=0;k<5;k++){
             nbChaquePion[k]=0;
