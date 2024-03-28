@@ -231,6 +231,8 @@ public class GraphDroleDeZebre extends javax.swing.JFrame {
         graph.initJeuInterface(1);*/
         
         /* Create and display the form */
+        
+        System.out.println("TEST ");
       
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
