@@ -9,19 +9,21 @@ package droledezebre;
  * @author mae
  */
 public final class Zebre extends Animal {
-   private boolean cache;
-   
-     public void setCache(boolean a ){
-        this.cache=a;
+
+    private boolean cache;
+
+    public boolean getCache() {
+        return (this.cache);
     }
-     public boolean getCache(){
-        return(this.cache);
+
+    public void setCache(boolean a) {
+        this.cache = a;
     }
-     
-   public Zebre(){
-       super();
-       cache=false;
-       indicateur="Z";
-       this.pts=6;
-   }
+
+    public Zebre() {
+        super();
+        cache = false;
+        indicateur = "Z";
+        this.pts = 6;
+    }
 }

@@ -9,7 +9,7 @@ package droledezebre;
  * @author mae
  */
 public abstract class Pion {
-   protected String indicateur; 
+   protected String indicateur; //identifiant pour savoir de quel pion il s'agit 
     protected String couleur; // obligé de donner à tout pion une couleur car sinon on ne peut pas afficher correctement les pions 
    
    

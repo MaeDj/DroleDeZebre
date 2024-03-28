@@ -9,19 +9,21 @@ package droledezebre;
  * @author mae
  */
 public final class Gazelle extends Animal {
-    private boolean cache;
-    
-    public void setCache(boolean a ){
-        this.cache=a;
+
+    private boolean cache;//sert si la gazelle est près d'un lion 
+
+    public boolean getCache() {
+        return (this.cache);
     }
-    public boolean getCache(){
-        return(this.cache);
+
+    public void setCache(boolean a) {
+        this.cache = a;
     }
-     
-      public Gazelle(){
-       super();
-       cache=false;
-       indicateur="G";
-       this.pts=2;
-   }
+
+    public Gazelle() {
+        super();
+        cache = false;
+        indicateur = "G";
+        this.pts = 2;
+    }
 }

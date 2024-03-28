@@ -15,19 +15,22 @@ import javax.swing.ImageIcon;
  */
 public class Jeu {
 
-    private ArrayList<Joueur> listJoueur = new ArrayList<>();
-    private Plateau plateauDeJeu=new Plateau();
+    private ArrayList<Joueur> listJoueur = new ArrayList<>(); //la liste des deux joueurs de la partie avec leurs attributs 
+    private Plateau plateauDeJeu = new Plateau(); // Plateau sur lequel la partie se fait 
 
     public ArrayList<Joueur> getListJoueur() {
         return (this.listJoueur);
     }
-    public void setPlateauDejeu(Plateau plateau){//à supprimer=> pour tester compter point 
-        this.plateauDeJeu=plateau;
+
+    public Plateau getPlateauDejeu() {//interface
+        return (this.plateauDeJeu);
     }
-    public Plateau getPlateauDejeu(){//interface
-        return(this.plateauDeJeu);
+
+    public void setPlateauDejeu(Plateau plateau) {//à supprimer=> pour tester compter point 
+        this.plateauDeJeu = plateau;
     }
-    public void init() { // creer le plateau et le jeu dans le main
+
+    public void init() { // créé le plateau et le jeu dans le main
 
         this.plateauDeJeu.init(choixCarte());
         for (int i = 0; i < 2; i++) { // initialisation des deux joueurs 
@@ -44,13 +47,11 @@ public class Jeu {
             listJoueur.add(1, listJoueur.get(1));
             listJoueur.add(0, temp);
         }
-        this.plateauDeJeu.premierePosImpala(this);
+        this.plateauDeJeu.premierePosImpala(this); // Le premier joueur de la liste choisi où il veut poser l'impala pour le premier tour 
 
         System.out.println(this.plateauDeJeu);
 
     }
-     
-
 
     public int choixCarte() { //Demande au joueur la carte qu'il veut utiliser et récupérer un indicateur utilisé dans les autres méthodes 
         int choix = 0;
@@ -103,7 +104,7 @@ public class Jeu {
             nbPions1 = 0;
             for (int j = 0; j < 7; j++) {// on parcours tout le plateau
 
-                for (int k = 0; k < 8; k++) { 
+                for (int k = 0; k < 8; k++) {
                     if (this.plateauDeJeu.getPlateau()[j][k].getTerrain() == i) { // si c'est le secteur que l'on recherche 
                         for (int l = 0; l < 2; l++) { //on passe d'un joueur à l'autre 
                             if (this.listJoueur.get(l).getCouleur().equals(this.plateauDeJeu.getPlateau()[j][k].getPion().getCouleur())) {//si c'est la couleur du joueur que l'on parcourt on regarde si on compte les points 
@@ -130,7 +131,7 @@ public class Jeu {
                                         nbPions1 += 1;
                                         break;
                                 }
-                                if (!animalCache) {
+                                if (!animalCache) {// si l'animal n'est pas caché on compte les points, sinon on ne fait rien et on passe au terrain suivant 
                                     switch (l) {
                                         case 0:
                                             nbPtAjoute0 += pion.getPts();
@@ -158,7 +159,7 @@ public class Jeu {
                 System.out.println("Vous etes à egalite sur le secteur " + i + " : aucun des points ne comptent");
             }
         }
-        for (int n = 0; n < 2; n++) {// on attribut l'innauguration 
+        for (int n = 0; n < 2; n++) {// on attribut l'inauguration 
             if (this.listJoueur.get(n).getInauguration()) {
                 this.listJoueur.get(n).setNbPoint(this.listJoueur.get(n).getNbPoint() + 5);
                 System.out.println(this.listJoueur.get(n).getPseudo() + " ,grace a votre point inauguration vous remportez 5 pts de plus !");
@@ -177,35 +178,35 @@ public class Jeu {
         return (retour);
     }
 
-    public void jeu() {
+    public void jeu() { // Méthode qui met en pratique toute la mécanique du jeu 
         this.init();
-        ArrayList<int[]> choixCase = new ArrayList<>();
+        ArrayList<int[]> choixCase = new ArrayList<>();//ensemble des cases disponibles à chaque tour 
         boolean inauguFaite = false;
-        while (!this.plateauDeJeu.plateauPlein()) {
+        while (!this.plateauDeJeu.plateauPlein()) { // on arrête la partie uniquement si le plateau est plein
             for (int i = 0; i < 2; i++) {
-                if (!this.listJoueur.get(i).getMain().isEmpty()) {
+                if (!this.listJoueur.get(i).getMain().isEmpty()) { //le joueur ne joue que si il a encore des pions, couvre le cas du lion
                     System.out.println("C'est au tour de " + this.listJoueur.get(i).getPseudo());
                     this.plateauDeJeu.voirPlateau();
-                    choixCase.clear();
+                    choixCase.clear(); // on nettoie la liste pour ne pas voir les résultats précédents 
                     Animal choixPion = this.listJoueur.get(i).proposerPion();//propose au joueur la liste des pions qu'il peut jouer
                     choixCase = this.plateauDeJeu.trouverCoordonneesCasesDispo();//trouver la liste des cases dispo
                     int[] choixJoueur = new int[2];//première case pour x et l'autre pour y 
                     choixJoueur = this.proposerChoixCase(choixCase);// demande au joueur sur quelle case il veut poser son pion
-                   this.plateauDeJeu.poserPion(this, i, choixJoueur, choixPion);
-                    if (this.listJoueur.get(0).getInauguration() == false && this.listJoueur.get(1).getInauguration() == false) {
-                       this.plateauDeJeu.inauguration(choixJoueur, this.listJoueur.get(i));
+                    this.plateauDeJeu.poserPion(this, i, choixJoueur, choixPion);
+                    if (this.listJoueur.get(0).getInauguration() == false && this.listJoueur.get(1).getInauguration() == false) { //on ne vérifie le cas de l'inauguration que si aucun des deux joueurs ne l'a déjà 
+                        this.plateauDeJeu.inauguration(choixJoueur, this.listJoueur.get(i));
                     }
                     System.out.println(this.plateauDeJeu);
-                    this.plateauDeJeu.deplacementImpala();
+                    this.plateauDeJeu.deplacementImpala();//on termine par déplacer l'impala 
                 }
             }
         }
-        ArrayList<Joueur> gagnants = new ArrayList();
-        gagnants = this.compterPoints();
+        ArrayList<Joueur> gagnants = new ArrayList(); // a la fin de la partie on compte les points 
+        gagnants = this.compterPoints();// on met les gagnants dans une arrayList pour couvrir le cas de l'égalité entre deux joueurs 
         if (gagnants.size() == 1) {
             System.out.println("Le gagnant est " + gagnants.get(0).getPseudo() + " avec " + gagnants.get(0).getNbPoint() + " pts");
         } else {
-            System.out.println("Les gagnants sont à égalité:");
+            System.out.println("Les gagnants sont à egalite:");
             for (int j = 0; j < gagnants.size(); j++) {
                 System.out.println(gagnants.get(j).getPseudo() + " avec " + gagnants.get(j).getNbPoint() + " pts");
             }

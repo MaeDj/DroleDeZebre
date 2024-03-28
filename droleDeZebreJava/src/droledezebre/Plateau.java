@@ -18,50 +18,51 @@ public class Plateau {
     public Case[][] getPlateau() {
         return (this.plateau);
     }
-     
 
     public String toString() {
         String retour = "";
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 8; j++) {
-                if ((i == 0 && j == 0) || (i == 0 && j == 7) || (i == 6 && j == 0) || (i == 6 && j == 7)) {
-                    retour = retour + "=> ";
-
+                if ((i == 0 && j == 0) || (i == 0 && j == 7)) {
+                    retour = retour + "=> ";//initialiser le tour du plateau 
+                }else if((i == 6 && j == 0) || (i == 6 && j == 7)){
+                   retour = retour + "<= ";
                 } else if (this.plateau[i][j].getPion() == null) {
                     if (i == 0 || j == 0 || i == 6 || j == 7) {
-                        retour = retour + " X ";
-                    } else {
+                        retour = retour + " X ";//initialiser le tour du plateau
+                    } else {//sinon si c'est une case standard on affiche juste le terrain 
                         retour = retour + " " + this.plateau[i][j].getTerrain() + " ";
                     }
                 } else if (this.plateau[i][j].getPion() != null) {
                     if (this.plateau[i][j].getPion().getIndicateur().equals("Imp")) {
 
-                        retour = retour + "Imp";
+                        retour = retour + "Imp";// afficher l'impala
 
                     } else {
                         if (this.plateau[i][j].getPion() instanceof Gazelle) {
                             Gazelle gazelle = (Gazelle) this.plateau[i][j].getPion();
-                            if (gazelle.getCache()) {
+                            if (gazelle.getCache()) {//si la gazelle est cachée
                                 retour = retour + this.plateau[i][j].getPion() + this.getPlateau()[i][j].getTerrain() + "C";
                             } else {
                                 retour = retour + this.plateau[i][j].getPion() + this.getPlateau()[i][j].getTerrain() + " ";
                             }
                         } else if (this.plateau[i][j].getPion() instanceof Zebre) {
                             Zebre zebre = (Zebre) this.plateau[i][j].getPion();
-                            if (zebre.getCache()) {
+                            if (zebre.getCache()) {// si le zebre est caché
                                 retour = retour + this.plateau[i][j].getPion() + this.getPlateau()[i][j].getTerrain() + "C";
                             } else {
-                                retour = retour + this.plateau[i][j].getPion()+ this.getPlateau()[i][j].getTerrain() + " ";
+                                retour = retour + this.plateau[i][j].getPion() + this.getPlateau()[i][j].getTerrain() + " ";
                             }
                         } else {
                             retour = retour + this.plateau[i][j].getPion() + this.getPlateau()[i][j].getTerrain() + " ";
+                            //sinon pour les autres animaux on affiche normalement 
                         }
 
                     }
                 }
 
                 if (j == 7) {
-                    retour = retour + "\n";
+                    retour = retour + "\n";// pour former un rectangle avec les retours à la ligne 
                 }
             }
         }
@@ -75,7 +76,7 @@ public class Plateau {
             System.out.println(jeu1.getListJoueur().get(1).getPseudo() + " Où voulez vous placer Impala Jones pour ce premier tour? n'oubliez pas que ça doit être une case au bord du plateau! ");
 
             try {
-                System.out.println("Donnez les coordonnées x (lignes)de votre ImpalaJones, ");
+                System.out.println("Donnez les coordonnees x (lignes)de votre ImpalaJones, ");
                 Scanner na = new Scanner(System.in);
                 int x = na.nextInt() - 1; // le joueur numerote naturellement les lignes et les colonnes en commencant par 1 
                 System.out.println("Donnez les coordonnées y(colonne) de votre ImplaJones ");
@@ -87,40 +88,39 @@ public class Plateau {
 
                     this.getPlateau()[x][y].setPion(impala);
                 } else {
-                    System.out.println("Entrez des coordonnées au bord du plateau");
+                    System.out.println("Entrez des coordonnees au bord du plateau");
                 }
             } catch (Exception e) {
-                System.out.println("Veuillez inscrire des entrées valides ");
+                System.out.println("Veuillez inscrire des entrees valides ");
             }
 
         }
     }
-    
-    public boolean inauguration(int [] coordo,Joueur joueur){
-        boolean plein=true;
-        for(int i=0;i<7;i++){
-            for(int j=0;j<8;j++){
-                if(this.plateau[i][j].getTerrain()==this.plateau[coordo[0]][coordo[1]].getTerrain()){
-                    if(this.plateau[i][j].getPion()==null){
-                        plein=false;
+
+    public boolean inauguration(int[] coordo, Joueur joueur) {//cherche si on peut donner le pion inauguration au joueur après son tour 
+        boolean plein = true;
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (this.plateau[i][j].getTerrain() == this.plateau[coordo[0]][coordo[1]].getTerrain()) {//si la case de la boucle a le même terrain que la case du joueur on regarde si il y a un pion
+                    if (this.plateau[i][j].getPion() == null) {// si il n'y en a pas, le secteur n'est pas plein donc pas de point inauguration
+                        plein = false;
                     }
                 }
             }
         }
-        if(plein){
+        if (plein) {
             joueur.setInauguration(true);
             System.out.println("Pour avoir rempli le premier secteur, vous remportez le point inauguration");
-            return(true);
-        }
-        else{
-            return(false);
+            return (true);
+        } else {
+            return (false);
         }
     }
 
-    public ArrayList<int[]> verifGazAutourCrocodile(int xCroc, int yCroc) {
+    public ArrayList<int[]> verifGazAutourCrocodile(int xCroc, int yCroc) {// Vérifie si il y a une gazelle autour du crocodile lors de son placement
         ArrayList<int[]> retour = new ArrayList<>();
 
-        if (this.plateau[xCroc + 1][yCroc].getPion() instanceof Gazelle) {
+        if (this.plateau[xCroc + 1][yCroc].getPion() instanceof Gazelle) {//on regarde chaque case autour du crocodile
             if (this.plateau[xCroc + 1][yCroc].getTerrain() != (this.plateau[xCroc][yCroc].getTerrain())) {
                 int[] temp = {xCroc + 1, yCroc};
                 retour.add(temp);
@@ -147,16 +147,16 @@ public class Plateau {
         return (retour);
     }
 
-    public void demanderQuelleGazchasser(ArrayList<int[]> coordoGaz, int xCroc, int yCroc) {
+    public void demanderQuelleGazchasser(ArrayList<int[]> coordoGaz, int xCroc, int yCroc) { // on propose au joueur la liste de Gazelles à chasser et on l'échange si il le désire 
         if (coordoGaz.isEmpty()) {
             System.out.println("Aucune Gazelle n'est à chasser dans les alentours");
         } else {
             try {
-                System.out.println("Quelle Gazelle voulez vous chasser? Choisissez ses coordonnées.");
+                System.out.println("Quelle Gazelle voulez vous chasser? Choisissez ses coordonnees.");
                 for (int i = 0; i < coordoGaz.size(); i++) {
                     System.out.println((i + 1) + ": Gazelle " + (i + 1) + ": ligne: " + (coordoGaz.get(i)[0] + 1) + " colonnes: " + (coordoGaz.get(i)[1] + 1));
                 }
-                System.out.println((coordoGaz.size() + 1) + ": Ne pas échanger les places ");
+                System.out.println((coordoGaz.size() + 1) + ": Ne pas echanger les places ");
                 boolean rep = false;
                 while (!rep) {
                     Scanner sc = new Scanner(System.in);
@@ -164,21 +164,21 @@ public class Plateau {
 
                     if (choixGaz > 0 && choixGaz <= coordoGaz.size() + 1) {
                         if (choixGaz == coordoGaz.size() + 1) {
-                            System.out.println("Votre crocodile décide d'épargner la gazelle aujourd'hui");
+                            System.out.println("Votre crocodile decide d'épargner la gazelle aujourd'hui");
                         } else {
                             Crocodile croc = (Crocodile) this.plateau[xCroc][yCroc].getPion();
                             Gazelle gaz = (Gazelle) this.plateau[coordoGaz.get(choixGaz - 1)[0]][coordoGaz.get(choixGaz - 1)[1]].getPion();
                             this.plateau[coordoGaz.get(choixGaz - 1)[0]][coordoGaz.get(choixGaz - 1)[1]].setPion(croc);
                             this.plateau[xCroc][yCroc].setPion(gaz);
-                            System.out.println("Mince, la gazelle s'est enfuie, mais vos places ont été échangées ");
+                            System.out.println("Mince, la gazelle s'est enfuie, mais vos places ont ete échangees ");
                         }
                         rep = true;
                     } else {
-                        System.out.println("Veuillez choisir le numero de la gazelle avec qui vous voulez échanger votre crocodile");
+                        System.out.println("Veuillez choisir le numero de la gazelle avec qui vous voulez echanger votre crocodile");
                     }
                 }
             } catch (Exception e) {
-                System.out.println("Entrez l'indice de la Gazelle que vous voulez échanger");
+                System.out.println("Entrez l'indice de la Gazelle que vous voulez echanger");
             }
         }
 
@@ -186,24 +186,24 @@ public class Plateau {
 
     public void verifGazZebAutourLion(Jeu j1, int indiceJoueur, int xLi, int yLi) {//quand on pose un lion on vérifie si il y a une gazelle autour et on l'enlève si c'est la cas 
         if (this.plateau[xLi + 1][yLi].getPion() instanceof Gazelle || this.plateau[xLi - 1][yLi].getPion() instanceof Gazelle || this.plateau[xLi][yLi + 1].getPion() instanceof Gazelle || this.plateau[xLi][yLi - 1].getPion() instanceof Gazelle) {
-            if (this.plateau[xLi + 1][yLi].getPion() instanceof Gazelle) {
+            if (this.plateau[xLi + 1][yLi].getPion() instanceof Gazelle) {// on vérifie chaque case autour du lion
                 Gazelle pion = (Gazelle) this.plateau[xLi + 1][yLi].getPion();
-                System.out.println("Votre Gazelle à l'emplacement [" + (xLi + 1) + ";" + yLi + "] vous à été retournée ");
-                j1.getListJoueur().get(indiceJoueur).getMain().add(pion);
+                System.out.println("Votre Gazelle à l'emplacement [" + (xLi + 1) + ";" + yLi + "] vous à été retournee ");
+                j1.getListJoueur().get(indiceJoueur).getMain().add(pion);//on rend au joueur sa gazelle 
                 this.plateau[xLi + 1][yLi].setPion(null);
             } else if (this.plateau[xLi - 1][yLi].getPion() instanceof Gazelle) {
                 Gazelle pion = (Gazelle) this.plateau[xLi - 1][yLi].getPion();
-                System.out.println("Votre Gazelle à l'emplacement [" + (xLi - 1) + ";" + yLi + "] vous à été retournée ");
+                System.out.println("Votre Gazelle à l'emplacement [" + (xLi - 1) + ";" + yLi + "] vous à ete retournee ");
                 j1.getListJoueur().get(indiceJoueur).getMain().add(pion);
                 this.plateau[xLi - 1][yLi].setPion(null);
             } else if (this.plateau[xLi][yLi + 1].getPion() instanceof Gazelle) {
                 Gazelle pion = (Gazelle) this.plateau[xLi][yLi + 1].getPion();
-                System.out.println("Votre Gazelle à l'emplacement [" + (xLi) + ";" + (yLi + 1) + "] vous à été retournée ");
+                System.out.println("Votre Gazelle à l'emplacement [" + (xLi) + ";" + (yLi + 1) + "] vous à ete retournee ");
                 j1.getListJoueur().get(indiceJoueur).getMain().add(pion);
                 this.plateau[xLi][yLi + 1].setPion(null);
             } else if (this.plateau[xLi][yLi - 1].getPion() instanceof Gazelle) {
                 Gazelle pion = (Gazelle) this.plateau[xLi][yLi - 1].getPion();
-                System.out.println("Votre Gazelle à l'emplacement [" + (xLi) + ";" + (yLi - 1) + "] vous à été retournée ");
+                System.out.println("Votre Gazelle à l'emplacement [" + (xLi) + ";" + (yLi - 1) + "] vous à ete retournee ");
                 j1.getListJoueur().get(indiceJoueur).getMain().add(pion);
                 this.plateau[xLi][yLi - 1].setPion(null);
             } else {
@@ -211,26 +211,26 @@ public class Plateau {
             }
 
         } else if (this.plateau[xLi + 1][yLi].getPion() instanceof Zebre || this.plateau[xLi - 1][yLi].getPion() instanceof Zebre || this.plateau[xLi][yLi + 1].getPion() instanceof Zebre || this.plateau[xLi][yLi - 1].getPion() instanceof Zebre) {
-            if (this.plateau[xLi + 1][yLi].getPion() instanceof Zebre) {
+            if (this.plateau[xLi + 1][yLi].getPion() instanceof Zebre) {//on fait la même chose avec le cas du zebre 
                 Zebre pion = (Zebre) this.plateau[xLi + 1][yLi].getPion();
-                pion.setCache(true);
+                pion.setCache(true);// lui se cache simplement 
                 this.plateau[xLi + 1][yLi].setPion(pion);
-                System.out.println("Votre Zebre à l'emplacement [" + (xLi + 1) + ";" + yLi + "] s'est caché ");
+                System.out.println("Votre Zebre à l'emplacement [" + (xLi + 1) + ";" + yLi + "] s'est cache ");
             } else if (this.plateau[xLi - 1][yLi].getPion() instanceof Zebre) {
                 Zebre pion = (Zebre) this.plateau[xLi - 1][yLi].getPion();
                 pion.setCache(true);
                 this.plateau[xLi - 1][yLi].setPion(pion);
-                System.out.println("Votre Zebre à l'emplacement [" + (xLi - 1) + ";" + yLi + "] s'est caché ");
+                System.out.println("Votre Zebre à l'emplacement [" + (xLi - 1) + ";" + yLi + "] s'est cache ");
             } else if (this.plateau[xLi][yLi + 1].getPion() instanceof Zebre) {
                 Zebre pion = (Zebre) this.plateau[xLi][yLi + 1].getPion();
                 pion.setCache(true);
                 this.plateau[xLi][yLi + 1].setPion(pion);
-                System.out.println("Votre Zebre à l'emplacement [" + (xLi) + ";" + (yLi + 1) + "] s'est caché ");
+                System.out.println("Votre Zebre à l'emplacement [" + (xLi) + ";" + (yLi + 1) + "] s'est cache ");
             } else if (this.plateau[xLi][yLi - 1].getPion() instanceof Zebre) {
                 Zebre pion = (Zebre) this.plateau[xLi][yLi - 1].getPion();
                 pion.setCache(true);
                 this.plateau[xLi][yLi - 1].setPion(pion);
-                System.out.println("Votre Zebre à l'emplacement [" + (xLi) + ";" + (yLi - 1) + "] s'est caché ");
+                System.out.println("Votre Zebre à l'emplacement [" + (xLi) + ";" + (yLi - 1) + "] s'est cache ");
             } else {
                 System.out.println("Il n'y a pas de zebre autour de vous ");
             }
@@ -246,18 +246,18 @@ public class Plateau {
                 Gazelle pion = (Gazelle) this.plateau[xGaZe][yGaZe].getPion();
                 pion.setCache(true);
                 this.plateau[xGaZe][yGaZe].setPion(pion);
-                System.out.println("Votre Gazelle à l'emplacement [" + xGaZe + ";" + yGaZe + "] s'est cachée ");
-            } else if(this.plateau[xGaZe][yGaZe].getPion() instanceof Zebre){
+                System.out.println("Votre Gazelle à l'emplacement [" + xGaZe + ";" + yGaZe + "] s'est cachee ");
+            } else if (this.plateau[xGaZe][yGaZe].getPion() instanceof Zebre) {
                 Zebre pion = (Zebre) this.plateau[xGaZe][yGaZe].getPion();
                 pion.setCache(true);
                 this.plateau[xGaZe][yGaZe].setPion(pion);
-                System.out.println("Votre Zebre à l'emplacement [" + xGaZe + ";" + yGaZe + "] s'est caché ");
+                System.out.println("Votre Zebre à l'emplacement [" + xGaZe + ";" + yGaZe + "] s'est cache ");
             }
         }
 
     }
 
-    public void init(int carte) {
+    public void init(int carte) {//on initialise le jeu et les terrains de chacune de ses cases 
 
         if (carte == 1 || carte == 2) {
             for (int i = 0; i < 7; i++) {
@@ -343,23 +343,6 @@ public class Plateau {
         }
     }
 
-    public int nbDeplaImpala() {
-        int choix = 0;
-
-        while (choix != 1 && choix != 2 && choix != 3) {
-            try {
-                System.out.println("De combien de cases souhaitez vous déplacer Impala Jones (1, 2 ou 3)");
-                Scanner scan = new Scanner(System.in);
-                choix = scan.nextInt();
-            } catch (Exception all) {
-            }
-            if (choix != 1 && choix != 2 && choix != 3) {
-                System.out.println("Veuillez faire un choix valide");
-            }
-        }
-        return choix;
-    }
-
     // Méthode qui permet de trouver Impala Jones sur le plateau
     public int[] trouverImpala() {
 
@@ -380,8 +363,7 @@ public class Plateau {
         return coord;
     }
 
-
-     // Méthode de base permettant de déplacer Impala de 1 2 ou 3 cases
+    // Méthode de base permettant de déplacer Impala de 1 2 ou 3 cases
     public void deplacerImpala(int nbDepla) {
 
         int dx = 0, dy = 0;
@@ -449,7 +431,7 @@ public class Plateau {
 
         //Partie qui demande à l'utilisateur le déplacement qu'il souhaite effectuer(si possible), ou deplace automatiquement Impala.
         if (!deplaPossibles.isEmpty()) {
-            System.out.println("Comment voulez-vous déplacer Impala Jones ?");
+            System.out.println("Comment voulez-vous deplacer Impala Jones ?");
             for (int i = 0; i < deplaPossibles.size(); i++) {
                 System.out.println(i + 1 + " : Deplacer de " + deplaPossibles.get(i) + " case(s)");
             }
@@ -464,12 +446,13 @@ public class Plateau {
             }
             this.deplacerImpala(choix);
         } else if (deplaPossibles.isEmpty()) {
-            System.out.println("Impala va être automatiquement déplacé");
+            System.out.println("Impala va être automatiquement deplace");
             this.deplaImpaAuto(this.prochainePosImpala());
             System.out.println(this);
-            System.out.println("Impala a été déplacé automatiquement du au manque de place sur les 3 prochaines positions");
+            System.out.println("Impala a été deplace automatiquement du au manque de place sur les 3 prochaines positions");
         }
     }
+
     // Méthode qui renvoie un tableau de coordonnées pour la prochaine position possible d'Impala
     // -- Enlever verif plateau plein car faite dans Jeu ?
     // -- Modifier les "second" while en for ?  
@@ -478,7 +461,7 @@ public class Plateau {
 
         //On vérifie que le plateau n'est pas plein. S'il ne l'est pas, on peut placer Impala quelque part
         if (this.plateauPlein()) {
-            System.out.println("Le plateau est plein et Impala ne sera pas déplacé");
+            System.out.println("Le plateau est plein et Impala ne sera pas deplace");
         } else if (!this.plateauPlein()) {
             boolean deplaPossible = false;
             int compteurVerif = 4;
@@ -651,7 +634,6 @@ public class Plateau {
         return (compteur == 0);
     }
 
-
     public boolean verifLigCoVide(int dx, int dy) {// Vérifie si la ligne ou la colonne correspondant à la case donnée en paramètre est vide 
 
         boolean deplaPossible = false;
@@ -679,8 +661,6 @@ public class Plateau {
 
         return deplaPossible;
     }
-
-    
 
     public ArrayList<int[]> trouverCoordonneesCasesDispo() {// trouve la liste des coordonnées x et y des cases où le pion peut être placé 
         ArrayList<int[]> retour = new ArrayList<>();
@@ -729,7 +709,7 @@ public class Plateau {
 
     }
 
-    public void voirPlateau() {
+    public void voirPlateau() {//méthode qui demande à l'utilisateur si il veut voir le plateau et qui lui affiche 
 
         boolean entreeCorrect = false;
         while (!entreeCorrect) {
@@ -754,8 +734,6 @@ public class Plateau {
             }
         }
     }
-    
-   
 
     public Plateau() {
         for (int i = 0; i < 7; i++) {
